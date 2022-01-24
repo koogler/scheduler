@@ -1,5 +1,6 @@
 export function getAppointmentsForDay(state, day) {
   const returnArr = []
+
   for (const dayParse of state.days) {
     if (dayParse.name === day) {
       for (const appointment of dayParse.appointments) {
@@ -22,4 +23,19 @@ export function getInterview(state, interview) {
     return null
   }
   return returnObj
+}
+
+export function getInterviewersForDay(state, day) {
+  const returnArr = []
+
+  for (const dayParse of state.days) {
+    if (dayParse.name === day) {
+      for (const interviewer of dayParse.interviewers) {
+        if (state.interviewers[interviewer]) {
+          returnArr.push(state.interviewers[interviewer])
+        }
+      }
+    }
+  }
+  return returnArr
 }
