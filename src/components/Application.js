@@ -21,6 +21,42 @@ export default function Application(props) {
 
   const dailyInterviewers = getInterviewersForDay(state, state.day)
 
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+  }
+
+  function deleteInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.delete(`/api/appointments/${id}`, appointment)
+      .then(() => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+  }
+
   const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
@@ -31,6 +67,8 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
+        deleteInterview={deleteInterview}
       />
     );
   });
@@ -41,9 +79,6 @@ export default function Application(props) {
       axios.get(`/api/appointments`),
       axios.get('/api/interviewers')
     ]).then((res) => {
-      console.log(res[0])
-      console.log(res[1])
-      console.log(res[2])
       setState(prev => ({
         ...prev,
         days: res[0].data,
@@ -54,14 +89,12 @@ export default function Application(props) {
 
   }, [])
 
-
-
-  const parsedAppointments = dailyAppointments.map(appointment =>
-    <Appointment
-      key={appointment.id}
-      {...appointment}
-    />
-  )
+  // const parsedAppointments = dailyAppointments.map(appointment =>
+  //   <Appointment
+  //     key={appointment.id}
+  //     {...appointment}
+  //   />
+  // )
 
   return (
 
@@ -89,7 +122,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {parsedAppointments}
+        {schedule}
         <Appointment key="last" time="5pm" />
       </section>
     </main>
