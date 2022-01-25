@@ -89,13 +89,6 @@ export default function Application(props) {
 
   }, [])
 
-  // const parsedAppointments = dailyAppointments.map(appointment =>
-  //   <Appointment
-  //     key={appointment.id}
-  //     {...appointment}
-  //   />
-  // )
-
   return (
 
     <main className="layout">
