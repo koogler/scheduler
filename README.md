@@ -8,6 +8,7 @@ Users can create the interview on the day and time of their choosing, and enter 
 
 Install dependencies with `npm install`.
 
+## Screenshots
 
 Our default page.
 ![Making an appointment](https://github.com/koogler/scheduler/blob/master/docs/2MadeAppointment.png?raw=true)
