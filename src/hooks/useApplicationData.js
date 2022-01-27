@@ -22,13 +22,21 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const dayById = state.days.find(day => day.appointments.includes(id))
+    // finds the day by looking at the id values given to each appointment
+    const days = state.days.map(day => {
+      if (state.appointments[id].interview === null && day.name === dayById.name) { return { ...day, spots: day.spots - 1 } } else { return day }
+    })
+    // adds 1 to day count if the interview isnt filled (null) and the day names match
     return axios.put(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({
           ...state,
-          appointments
+          appointments,
+          days
         });
       })
+    // axios call to setState on our api page
   }
 
   function deleteInterview(id) {
@@ -40,11 +48,16 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const dayById = state.days.find(day => day.appointments.includes(id))
+    const days = state.days.map(day => {
+      if (day.name === dayById.name) { return { ...day, spots: day.spots + 1 } } else { return day }
+    })
     return axios.delete(`/api/appointments/${id}`, appointment)
       .then(() => {
         setState({
           ...state,
-          appointments
+          appointments,
+          days
         });
       })
   }
