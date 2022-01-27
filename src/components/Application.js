@@ -28,6 +28,7 @@ export default function Application(props) {
       />
     );
   });
+  // maps through the dailyAppointments drawn from state and creates the interviews
 
   return (
 

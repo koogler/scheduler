@@ -16,10 +16,6 @@ export default function Form(props) {
     props.onCancel()
   }
 
-  // const saveCapture = function () {
-  //   return props.onSave(student, interviewer)
-  // }
-
   function validate() {
     if (student === "") {
       setError("Student name cannot be blank");
@@ -32,6 +28,8 @@ export default function Form(props) {
       return props.onSave(student, interviewer);
     }
   }
+
+  // returns error if there is no student or interviewer specified 
 
   return (
     <main className="appointment__card appointment__card--create">
